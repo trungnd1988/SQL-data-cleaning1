@@ -83,3 +83,13 @@ SET age = (SELECT ROUND(AVG(age),0)
 FROM club_member_info_cleaned)
 WHERE age=""
 
+`` xử lý dữ liệu tình trạng hôn nhân: các ô trông là single
+SELECT martial_status
+FROM club_member_info_cleaned cmic 
+WHERE martial_status=""
+GROUP BY martial_status
+
+UPDATE club_member_info_cleaned
+SET martial_status = "single"
+WHERE martial_status ="";
+
