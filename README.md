@@ -17,4 +17,69 @@ LIMIT 10;
 |   Joete Cudiff|51|divorced|jcudiff7@ycombinator.com|616-617-0965|975 Dwight Plaza,Grand Rapids,Michigan|Research Nurse|11/16/2014|
 |mendie alexandrescu|46|single|malexandrescu8@state.gov|504-918-4753|34 Delladonna Terrace,New Orleans,Louisiana|Systems Administrator III|3/12/1921|
 | fey kloss|52|married|fkloss9@godaddy.com|808-177-0318|8976 Jackson Park,Honolulu,Hawaii|Chemical Engineer|11/5/2014|
+###Cleaning and Document
+``tạo bảng mới để chỉnh sửa dữ liệu
+CREATE TABLE club_member_info_cleaned (
+	full_name VARCHAR(50),
+	age INTEGER,
+	martial_status VARCHAR(50),
+	email VARCHAR(50),
+	phone VARCHAR(50),
+	full_address VARCHAR(50),
+	job_title VARCHAR(50),
+	membership_date VARCHAR(50)
+);
+``copy data từ file gốc sang file xử lý
+INSERT INTO club_member_info_cleaned 
+SELECT * FROM club_member_info 
+``Xử lý cột full_name
+SELECT TRIM(full_name)
+FROM club_member_info_cleaned 
+
+UPDATE club_member_info_cleaned 
+SET full_name=TRIM(full_name)
+
+SELECT UPPER(full_name)
+FROM club_member_info_cleaned 
+
+UPDATE club_member_info_cleaned 
+SET full_name= UPPER(full_name)
+`` xử lý cột age
+SELECT DISTINCT age
+FROM club_member_info_cleaned cmic
+ORDER BY age
+
+SELECT CAST(SUBSTR(age, 1, 2) AS INTEGER)
+FROM club_member_info_cleaned
+WHERE age > 100 AND age <> ''
+ORDER BY age
+
+UPDATE club_member_info_cleaned
+SET age = CAST(SUBSTR(age, 1, 2) AS INTEGER)
+WHERE age > 100 and age <> ''
+
+SELECT ROUND(AVG(age),0)
+FROM club_member_info_cleaned
+
+SELECT age 
+FROM club_member_info_cleaned cmic 
+WHERE age=""
+ORDER BY age
+
+UPDATE club_member_info_cleaned
+SET age = CAST(SUBSTR(age, 1, 2) AS INTEGER)
+WHERE age > 100 and age <> ''
+
+SELECT ROUND(AVG(age),0)
+FROM club_member_info_cleaned
+
+SELECT age 
+FROM club_member_info_cleaned 
+WHERE age=""
+ORDER BY age
+
+UPDATE club_member_info_cleaned 
+SET age = (SELECT ROUND(AVG(age),0)
+FROM club_member_info_cleaned)
+WHERE age=""
 
